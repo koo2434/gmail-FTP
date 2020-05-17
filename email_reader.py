@@ -33,7 +33,6 @@ class GmailListener:
     def set_recent_id(self):
         results = self.service.users().messages().list(userId='me',labelIds = ['INBOX']).execute()
         messages = results.get('messages', [])
-        print(messages)
         if not messages:
             print("No messages found.")
         else:
@@ -42,27 +41,23 @@ class GmailListener:
 
     def get_new_emails(self):
         try:
-            while _ in range (10):
+            for _ in range (10):
                 results = self.service.users().history().list(userId='me', startHistoryId=self.recentHistoryId).execute()
-                message = results.get('history', [])
-                if not message:
-                    print("{0}: No new messages.".format(self.recentHistoryId))
+                messages = results.get('history', [])
+                if not messages:
+                    print("ID {0}: No new messages.".format(self.recentHistoryId))
                 else:
-                    latestMessage = message[-1]
+                    latestNewMessage = messages[-1]
                     id = latestMessage.get('messages')[0].get('id')
-                    print(id)
                     recentMsg = self.service.users().messages().get(userId='me', id = id).execute()
-                    print(recentMsg['snippet'])
-                    self.recentHistoryId = recentMsg['historyId']
+                    recentMsgBody = recentMsg['snippet']
+                    self.recentHistoryId = recentMsgBody['historyId']
                 time.sleep(3)
         except errors.HttpError as error:
             print(error)
 
-
 if __name__ == '__main__':
-
     listener = GmailListener()
     listener.set_creds_service()
     listener.set_recent_id()
-    #listener.test_history_list(3936)
     listener.get_new_emails()
