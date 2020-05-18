@@ -50,12 +50,7 @@ class GmailListener:
                     print(recent_msg_email_addr)
                     print(recent_msg_body)
 
-                    req = recent_msg_body.split(' ')[0].strip().lower()
-                    if req is None or req == 'help' or req not in CMD_DICT:
-                        self.process_queue((0, './instruction.txt'))
-                    else:
-                        path = recent_msg_body.split('"')[1].strip()
-                        self.process_queue((1, path))
+                    self.process_queue.put((recent_msg_email_addr, recent_msg_body))
 
                 time.sleep(3)
         except errors.HttpError as error:

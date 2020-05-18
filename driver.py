@@ -17,7 +17,7 @@ class Driver:
         self.creds = None
         self.service = None
         self.auth_accounts = None
-        self.process_queue = PriorityQueue()
+        self.process_queue = Queue()
         self.send_queue = PriorityQueue()
 
         self.__set_creds_service()
