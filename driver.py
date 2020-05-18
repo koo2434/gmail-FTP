@@ -2,8 +2,6 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 import pickle
 import os.path
-import base64
-from apiclient import errors
 from queue import *
 import gmail_listener
 #import file_processor
@@ -19,7 +17,7 @@ class Driver:
         self.creds = None
         self.service = None
         self.auth_accounts = None
-        self.process_queue = Queue()
+        self.process_queue = PriorityQueue()
         self.send_queue = PriorityQueue()
 
         self.__set_creds_service()

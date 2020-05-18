@@ -1,8 +1,3 @@
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-import pickle
-import os.path
-import base64
 from apiclient import errors
 from queue import *
 import time
@@ -39,7 +34,7 @@ class GmailListener:
 
     def listen_new_emails(self):
         try:
-            for _ in range (10):
+            for _ in range (3):
                 results = self.service.users().history().list(userId='me', startHistoryId=self.recent_history_id).execute()
                 messages = results.get('history', [])
                 if not messages:
@@ -55,8 +50,12 @@ class GmailListener:
                     print(recent_msg_email_addr)
                     print(recent_msg_body)
 
-                    if recent_msg_body.split(' ')[0] == 'help' or not in CMD_DICT:
-
+                    req = recent_msg_body.split(' ')[0].strip().lower()
+                    if req is None or req == 'help' or req not in CMD_DICT:
+                        self.process_queue((0, './instruction.txt'))
+                    else:
+                        path = recent_msg_body.split('"')[1].strip()
+                        self.process_queue((1, path))
 
                 time.sleep(3)
         except errors.HttpError as error:

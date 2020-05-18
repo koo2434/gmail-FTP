@@ -1,0 +1,50 @@
+=======================
+$SYSTEM_NAME Gmail@FTP
+=======================
+
+INSTRUCTION
+
+Commands: get, show, help
+
+--------
+get
+
+SYNOPSIS
+    get [FILE_PATH] [OPTION]
+
+DESCRIPTION
+    Fetch a file from the given FILE_NAME.
+    FILE_NAME must be wrapped with Quotation marks.
+    Current directory by default if path is not specified and only file name is given.
+    Search scope is predefined during initial setup.
+    Returns with no attachment if no such file exists.
+
+    e.g. get "D:/tim/tam/tim_tam.txt"
+--------
+--------
+show
+
+SYNOPSIS
+    show [PATH] [OPTION]
+
+DESCRIPTION
+    Show a list of files in the given PATH.
+    Current directory by default if path is not specified.
+    
+    -r [COUNT]
+	Reveal a list of files within directories that exists in the given path.
+	Setting COUNT sets how many levels of child directories it shall reveal.
+	If not specified, COUNT = 0, revealing no file list within directories
+	of the given PATH.
+--------
+--------
+help
+
+SYNOPSIS
+    help
+
+DESCRIPTION
+    Return this file. 
+    Any other requests made with commands not defined by this file
+	will also have this file returned.
+--------
