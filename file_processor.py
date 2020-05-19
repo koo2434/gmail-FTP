@@ -27,7 +27,7 @@ class FileProcessor:
             if (not os.path.exists(file_path)) or (not os.path.isfile(file_path)):
                 self.send_queue.put((0, 'm', "FILE NOT FOUND: " + file_path))
             else:
-                
+
                 pass
                 #self.send_queue.put((1, 'g', file_path))
         elif req == 'show':
