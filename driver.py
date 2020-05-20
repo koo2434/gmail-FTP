@@ -3,10 +3,12 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 import pickle
 import os.path
 from queue import *
+from concurrent.futures import ThreadPoolExecutor, wait
+import time
+
 import gmail_listener
-#import file_processor
-from concurrent.futures import ThreadPoolExecutor
-import threading
+import file_processor
+import gmail_sender
 
 SCOPES = ['https://mail.google.com/']
 CREDENTIALS = 'credentials.json'
@@ -46,20 +48,21 @@ class Driver:
                                     self.process_queue,
                                     self.send_queue,
                                     self.auth_accounts)
-        #_file_processor = file_processor.FileProcessor(
-        #                            self.service,
-        #                            self.process_queue,
-        #                            self.send_queue)
-        #_gmail_sender = gmail_sender.GmailSender(
-        #                            self.service,
-        #                            self.send_queue)
+        _file_processor = file_processor.FileProcessor(
+                                    self.service,
+                                    self.process_queue,
+                                    self.send_queue)
+        _gmail_sender = gmail_sender.GmailSender(
+                                    self.service,
+                                    self.send_queue)
 
         exec = ThreadPoolExecutor(max_workers = 3)
         r1 = exec.submit(_gmail_listener.listen_new_emails)
-        #r2 = exec.submit(_file_processor.process_file_requests)
-        #r3 = exec.submit(_gmail_sender.send_emails)
+        r2 = exec.submit(_file_processor.process_requests)
+        r3 = exec.submit(_gmail_sender.send_emails)
 
-        exec.shutdown(wait = True)
+        print("Starting...")
+        exec.shutdown(wait=True)
         print("Finishing process...")
         print("Done.")
 

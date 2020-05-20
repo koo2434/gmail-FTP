@@ -1,6 +1,7 @@
 from apiclient import errors
-from queue import *
 import time
+import traceback
+import logging
 
 SCOPES = ['https://mail.google.com/']
 CREDENTIALS = 'credentials.json'
@@ -15,6 +16,7 @@ class GmailListener:
         self.send_queue = send_queue
         self.auth_accounts = auth_accounts
         self.recent_history_id = -1
+
         self.__set_recent_id()
 
     def __set_recent_id(self):
@@ -29,12 +31,15 @@ class GmailListener:
     def __get_sender_email_address(self, id):
         addr = self.service.users().messages().get(userId='me', id = id, format='metadata',
                                 metadataHeaders=['From'], fields='payload/headers').execute()
+        print(addr)
         addr = addr.get('payload').get('headers')[0].get('value')
+        print(addr)
         return addr.split('<')[1].split('>')[0]
 
     def listen_new_emails(self):
+        print("Listening...")
         try:
-            for _ in range (3):
+            for _ in range (10):
                 results = self.service.users().history().list(userId='me', startHistoryId=self.recent_history_id).execute()
                 messages = results.get('history', [])
                 if not messages:
@@ -49,9 +54,10 @@ class GmailListener:
 
                     print(recent_msg_email_addr)
                     print(recent_msg_body)
+                    print(recent_msg['historyId'])
 
                     self.process_queue.put((recent_msg_email_addr, recent_msg_body))
 
                 time.sleep(3)
-        except errors.HttpError as error:
-            print(error)
+        except Exception as e:
+            logging.error(traceback.format_exc())
