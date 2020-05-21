@@ -60,7 +60,10 @@ class GmailListener:
                     print(recent_msg_email_addr)
                     print(recent_msg_body)
                     print(recent_msg['historyId'])
-                    if recent_msg_email_addr != self.user_email:
+
+                    if recent_msg_email_addr not in self.auth_accounts:
+                        print("Request IGNORED: Unauthorized email")
+                    elif recent_msg_email_addr != self.user_email:
                         self.process_queue.put((recent_msg_email_addr, recent_msg_body))
 
                 time.sleep(3)
