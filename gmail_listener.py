@@ -10,7 +10,8 @@ CMD_DICT = {'get', 'help', 'has', 'show'}
 class GmailListener:
     def __init__(self, service,
                 process_queue, send_queue,
-                auth_accounts):
+                auth_accounts,
+                debug):
         self.service = service
         self.process_queue = process_queue
         self.send_queue = send_queue
@@ -19,6 +20,8 @@ class GmailListener:
         self.recent_history_id = -1
 
         self.__set_recent_id()
+
+        self.debug = debug
 
     def __set_recent_id(self):
         results = self.service.users().messages().list(userId='me',labelIds = ['INBOX']).execute()
@@ -44,11 +47,11 @@ class GmailListener:
     def listen_new_emails(self):
         print("Listening...")
         try:
-            for _ in range (10):
+            while self.debug[0] is not True:
                 results = self.service.users().history().list(userId='me', startHistoryId=self.recent_history_id).execute()
                 messages = results.get('history', [])
                 if not messages:
-                    print('ID {0}: No new messages.'.format(self.recent_history_id))
+                    print('Listener: ID {0}; No new messages.'.format(self.recent_history_id))
                 else:
                     latest_new_message = messages[-1]
                     id = latest_new_message.get('messages')[0].get('id')
@@ -67,5 +70,6 @@ class GmailListener:
                         self.process_queue.put((recent_msg_email_addr, recent_msg_body))
 
                 time.sleep(3)
+            print("STOP: Listening")
         except Exception as e:
             logging.error(traceback.format_exc())

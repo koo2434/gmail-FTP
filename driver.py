@@ -25,6 +25,8 @@ class Driver:
         self.__set_creds_service()
         self.__set_auth_accounts()
 
+        self.debug = [False] # For debug, remove before deploying
+
     def __set_creds_service(self):
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
@@ -42,24 +44,34 @@ class Driver:
         with open('authorized_accounts.txt', 'rt') as accounts:
             self.auth_accounts = [account.strip() for account in accounts]
 
+    def console_reader(self):
+       con = input()
+       if con == 'stop' or con == 'Stop':
+           self.debug[0] = True
+
     def begin(self):
         _gmail_listener = gmail_listener.GmailListener(
                                     self.service,
                                     self.process_queue,
                                     self.send_queue,
-                                    self.auth_accounts)
+                                    self.auth_accounts,
+                                    self.debug)
         _file_processor = file_processor.FileProcessor(
                                     self.service,
                                     self.process_queue,
-                                    self.send_queue)
+                                    self.send_queue,
+                                    self.debug)
         _gmail_sender = gmail_sender.GmailSender(
                                     self.service,
-                                    self.send_queue)
+                                    self.send_queue,
+                                    self.debug)
 
-        exec = ThreadPoolExecutor(max_workers = 3)
+        exec = ThreadPoolExecutor(max_workers = 4)
         r1 = exec.submit(_gmail_listener.listen_new_emails)
         r2 = exec.submit(_file_processor.process_requests)
         r3 = exec.submit(_gmail_sender.send_emails)
+
+        r4 = exec.submit(self.console_reader)
 
         print("Starting...")
         exec.shutdown(wait=True)

@@ -17,11 +17,14 @@ CMD_DICT = {'get', 'help', 'show'}
 
 class FileProcessor:
     def __init__(self, service,
-                process_queue, send_queue):
+                process_queue, send_queue,
+                debug):
         self.service = service
         self.process_queue = process_queue
         self.send_queue = send_queue
         self.from_email = service.users().getProfile(userId='me').execute()['emailAddress']
+
+        self.debug = debug
 
     def __get_encoded_plain_message(self, to_email, from_email,
                                             subject, body):
@@ -56,8 +59,13 @@ class FileProcessor:
     def process_requests(self):
         print("Processing...")
         try:
-            for _ in range(1):
-                tup = self.process_queue.get(block=True)
+            while self.debug[0] is not True:
+                tup = None
+                try:
+                    tup = self.process_queue.get(timeout = 3)
+                except Empty:
+                    print("Processor: Empty queue")
+                    continue
                 print("detected: process")
                 to_email = tup[0].strip()
                 req = tup[1].split(' ')[0].strip().lower()
@@ -104,3 +112,4 @@ class FileProcessor:
                     pass
         except Exception:
             logging.error(traceback.format_exc())
+        print("STOP: Processing")
