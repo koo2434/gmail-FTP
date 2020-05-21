@@ -3,9 +3,8 @@ import platform
 import base64
 import os
 import mimetypes
-from email.mime.audio import MIMEAudio
-from email.mime.base import MIMEBase
-from email.mime.image import MIMEImage
+from os.path import basename
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -44,26 +43,13 @@ class FileProcessor:
 
         message.attach(MIMEText(body))
 
-        content_type, encoding = mimetypes.guess_type(file_path)
-        if content_type is None or encoding is not None:
-            content_type = 'application/octet-stream'
-        main_type, sub_type = content_type.split('/', 1)
-        att_file = None
-        fp = open(file_path, 'rb')
-        file_name = fp.name
-        if main_type == 'text':
-            att_file = MIMEText(fp.read(), _subtype=sub_type)
-        elif main_type == 'image':
-            att_file = MIMEImage(fp.read(), _subtype=sub_type)
-        elif main_type == 'audio':
-            att_file = MIMEAudio(fp.read(), _subtype=sub_type)
-        else:
-            att_file = MIMEBase(main_type, sub_type)
-            att_file.set_payload(fp.read())
-        fp.close()
-
-        att_file.add_header('Content-Disposition', 'attachment', filename=file_name)
-        message.attach(att_file)
+        with open(file_path, 'rb') as f:
+            part = MIMEApplication(
+                f.read(),
+                Name=basename(file_path)
+            )
+        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(file_path)
+        message.attach(part)
 
         return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 

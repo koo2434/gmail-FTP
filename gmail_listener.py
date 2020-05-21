@@ -34,7 +34,11 @@ class GmailListener:
         print(addr)
         addr = addr.get('payload').get('headers')[0].get('value')
         print(addr)
-        return addr.split('<')[1].split('>')[0]
+        check = addr.split('<')
+        if len(check) == 1:
+            return addr
+        else:
+            return addr.split('<')[1].split('>')[0]
 
     def listen_new_emails(self):
         print("Listening...")
