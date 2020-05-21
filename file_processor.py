@@ -78,8 +78,8 @@ class FileProcessor:
                         self.send_queue.put((0, encoded_msg))
                         print("in send_queue")
                 elif req == 'get':
-                    print(tup[1].split(' ')[1])
-                    file_path = tup[1].split(' ')[1].split('&quot;')[1]
+                    print(tup[1].split(' ', 1)[1])
+                    file_path = tup[1].split(' ', 1)[1].split('&quot;')[1]
                     if (not os.path.exists(file_path)) or (not os.path.isfile(file_path)):
                         print("Get not found")
                         body = 'Requested file NOT FOUND: ' + file_path

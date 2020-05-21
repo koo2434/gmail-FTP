@@ -15,6 +15,7 @@ class GmailListener:
         self.process_queue = process_queue
         self.send_queue = send_queue
         self.auth_accounts = auth_accounts
+        self.user_email = service.users().getProfile(userId='me').execute()['emailAddress']
         self.recent_history_id = -1
 
         self.__set_recent_id()
@@ -59,8 +60,8 @@ class GmailListener:
                     print(recent_msg_email_addr)
                     print(recent_msg_body)
                     print(recent_msg['historyId'])
-
-                    self.process_queue.put((recent_msg_email_addr, recent_msg_body))
+                    if recent_msg_email_addr != self.user_email:
+                        self.process_queue.put((recent_msg_email_addr, recent_msg_body))
 
                 time.sleep(3)
         except Exception as e:
