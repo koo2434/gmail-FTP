@@ -51,7 +51,7 @@ class GmailListener:
                 results = self.service.users().history().list(userId='me', startHistoryId=self.recent_history_id).execute()
                 messages = results.get('history', [])
                 if not messages:
-                    print('Listener: ID {0}; No new messages.'.format(self.recent_history_id))
+                    print('ID {0}: No new messages.'.format(self.recent_history_id))
                 else:
                     latest_new_message = messages[-1]
                     id = latest_new_message.get('messages')[0].get('id')

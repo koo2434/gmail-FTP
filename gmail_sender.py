@@ -18,7 +18,6 @@ class GmailSender:
             try:
                 encoded_msg = self.send_queue.get(timeout = 3)[1]
             except Empty:
-                print("Sender: empty queue")
                 continue
             print("detected: sending")
             try:
