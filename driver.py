@@ -11,7 +11,7 @@ import file_processor
 import gmail_sender
 
 SCOPES = ['https://mail.google.com/']
-CREDENTIALS = 'credentials.json'
+CREDENTIALS = './credential.json'
 
 class Driver:
 

@@ -64,13 +64,14 @@ class FileProcessor:
                 try:
                     tup = self.process_queue.get(timeout = 3)
                 except Empty:
-                    print("Processor: Empty queue")
                     continue
                 print("detected: process")
-                to_email = tup[0].strip()
-                req = tup[1].split(' ')[0].strip().lower()
 
-                if req is None or req == 'help' or req not in CMD_DICT:
+                if len(tup) == 2:
+                    to_email = tup[0].strip()
+                    req = tup[1].split(' ')[0].strip().lower()
+
+                if len(tup) != 2 or req is None or req == 'help' or req not in CMD_DICT:
                     print("Req not in correct form")
                     with open('./instruction.txt', 'r') as inst_file:
                         instruction = inst_file.read()
