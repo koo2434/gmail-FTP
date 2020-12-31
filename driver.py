@@ -5,6 +5,7 @@ import os.path
 from queue import *
 from concurrent.futures import ThreadPoolExecutor, wait
 import time
+import requests
 
 import gmail_listener
 import file_processor
@@ -78,6 +79,16 @@ class Driver:
         print("Finishing process...")
         print("Done.")
 
+def is_internet_on():
+    try:
+        r = requests.get('https://8.8.8.8')
+        return True
+    except (requests.ConnectionError, requests.Timeout) as err:
+        return False
+
 if __name__ == '__main__':
-    d = Driver()
-    d.begin()
+    if is_internet_on():
+        d = Driver()
+        d.begin()
+    else:
+        print("Check internet connection.")
