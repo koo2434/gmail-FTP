@@ -26,7 +26,7 @@ class Driver:
         self.__set_creds_service()
         self.__set_auth_accounts()
 
-        self.debug = [False] # For debug, remove before deploying
+        self.debug = [False] # TODO: For debug, remove before deploying
 
     def __set_creds_service(self):
         if os.path.exists('token.pickle'):
