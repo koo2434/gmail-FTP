@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:/Users/Louis/Desktop/Projects/gmail@ftp/layout.ui'
+# Form implementation generated from reading ui file 'C:\Users\Louis\Desktop\Projects\gmail@ftp\layout.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainDialog(object):
     def setupUi(self, mainDialog):
         mainDialog.setObjectName("mainDialog")
-        mainDialog.resize(720, 284)
+        mainDialog.resize(770, 284)
         self.boundEmailLabel = QtWidgets.QLabel(mainDialog)
         self.boundEmailLabel.setGeometry(QtCore.QRect(10, 70, 121, 16))
         self.boundEmailLabel.setObjectName("boundEmailLabel")
@@ -40,17 +40,9 @@ class Ui_mainDialog(object):
         self.trustedEmailLabel = QtWidgets.QLabel(mainDialog)
         self.trustedEmailLabel.setGeometry(QtCore.QRect(340, 10, 151, 20))
         self.trustedEmailLabel.setObjectName("trustedEmailLabel")
-        self.trustedEmailListView = QtWidgets.QListView(mainDialog)
-        self.trustedEmailListView.setGeometry(QtCore.QRect(340, 30, 161, 241))
-        self.trustedEmailListView.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.trustedEmailListView.setViewMode(QtWidgets.QListView.ListMode)
-        self.trustedEmailListView.setObjectName("trustedEmailListView")
         self.logLabel = QtWidgets.QLabel(mainDialog)
-        self.logLabel.setGeometry(QtCore.QRect(510, 10, 101, 20))
+        self.logLabel.setGeometry(QtCore.QRect(540, 10, 31, 20))
         self.logLabel.setObjectName("logLabel")
-        self.logListView = QtWidgets.QListView(mainDialog)
-        self.logListView.setGeometry(QtCore.QRect(510, 30, 201, 241))
-        self.logListView.setObjectName("logListView")
         self.accessibleDirectoryLabel = QtWidgets.QLabel(mainDialog)
         self.accessibleDirectoryLabel.setGeometry(QtCore.QRect(10, 180, 121, 16))
         self.accessibleDirectoryLabel.setObjectName("accessibleDirectoryLabel")
@@ -71,6 +63,18 @@ class Ui_mainDialog(object):
         self.credentialsDirectoryTextEdit.setGeometry(QtCore.QRect(10, 30, 321, 31))
         self.credentialsDirectoryTextEdit.setReadOnly(False)
         self.credentialsDirectoryTextEdit.setObjectName("credentialsDirectoryTextEdit")
+        self.trustedEmailListWidget = QtWidgets.QListWidget(mainDialog)
+        self.trustedEmailListWidget.setGeometry(QtCore.QRect(340, 30, 191, 201))
+        self.trustedEmailListWidget.setObjectName("trustedEmailListWidget")
+        self.logListWidget = QtWidgets.QListWidget(mainDialog)
+        self.logListWidget.setGeometry(QtCore.QRect(540, 30, 221, 201))
+        self.logListWidget.setObjectName("logListWidget")
+        self.trustedEmailAddressesEditButton = QtWidgets.QPushButton(mainDialog)
+        self.trustedEmailAddressesEditButton.setGeometry(QtCore.QRect(342, 240, 191, 31))
+        self.trustedEmailAddressesEditButton.setObjectName("trustedEmailAddressesEditButton")
+        self.logClearButton = QtWidgets.QPushButton(mainDialog)
+        self.logClearButton.setGeometry(QtCore.QRect(540, 240, 221, 31))
+        self.logClearButton.setObjectName("logClearButton")
 
         self.retranslateUi(mainDialog)
         QtCore.QMetaObject.connectSlotsByName(mainDialog)
@@ -88,6 +92,8 @@ class Ui_mainDialog(object):
         self.refreshButton.setText(_translate("mainDialog", "Refresh"))
         self.toggleButton.setText(_translate("mainDialog", "Start"))
         self.credentialsLabel.setText(_translate("mainDialog", "Credentials"))
+        self.trustedEmailAddressesEditButton.setText(_translate("mainDialog", "Edit"))
+        self.logClearButton.setText(_translate("mainDialog", "Clear"))
 
 
 if __name__ == "__main__":

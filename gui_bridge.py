@@ -1,24 +1,28 @@
 import sys
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5 import uic
 from layout import Ui_mainDialog
 from driver import Driver
 import requests
 
-#layout_ui = uic.loadUiType("layout.ui")[0]
+layout_ui = uic.loadUiType("layout.ui")[0]
 
 class MyWindow(QMainWindow, Ui_mainDialog):
     def __init__(self):
         super().__init__()
-        self.mainDialog = QDialog()
-        self.setupUi(self.mainDialog)
-        self.setCentralWidget(self.mainDialog)
-        self.setGeometry(400, 200, 720, 284)
+        self.setupUi(self)
 
         self.credentialsDirectoryTextEdit.mousePressEvent = self.on_click_credential_browse
         self.accessibleDirectoryTextEdit.mousePressEvent = self.on_click_accessible_directory
         self.refreshButton.clicked.connect(self.on_click_refresh)
         self.toggleButton.clicked.connect(self.on_click_start)
+
+        self.trustedEmailListWidget.setStyleSheet( "QListWidget::item { border-bottom: 1px solid #D3D3D3; }" )
+        test = QListWidgetItem("test")
+        print(test.flags())
+        test.setFlags(test.flags() | Qt.ItemIsEditable)
+        self.trustedEmailListWidget.addItem(test)
 
     # TODO: Display a file browser.
     #       The selected OAuth credentials file's directory

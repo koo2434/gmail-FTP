@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
+    <width>770</width>
     <height>284</height>
    </rect>
   </property>
@@ -113,43 +113,17 @@
     <string>Trusted email addresses</string>
    </property>
   </widget>
-  <widget class="QListView" name="trustedEmailListView">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>30</y>
-     <width>161</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Sunken</enum>
-   </property>
-   <property name="viewMode">
-    <enum>QListView::ListMode</enum>
-   </property>
-  </widget>
   <widget class="QLabel" name="logLabel">
    <property name="geometry">
     <rect>
-     <x>510</x>
+     <x>540</x>
      <y>10</y>
-     <width>101</width>
+     <width>31</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string>Log</string>
-   </property>
-  </widget>
-  <widget class="QListView" name="logListView">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>30</y>
-     <width>201</width>
-     <height>241</height>
-    </rect>
    </property>
   </widget>
   <widget class="QLabel" name="accessibleDirectoryLabel">
@@ -228,6 +202,52 @@
    </property>
    <property name="readOnly">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="logListWidget">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>30</y>
+     <width>221</width>
+     <height>201</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="trustedEmailAddressesEditButton">
+   <property name="geometry">
+    <rect>
+     <x>342</x>
+     <y>240</y>
+     <width>191</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="logClearButton">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>240</y>
+     <width>221</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="trustedEmailListWidget">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>31</y>
+     <width>191</width>
+     <height>201</height>
+    </rect>
    </property>
   </widget>
  </widget>
